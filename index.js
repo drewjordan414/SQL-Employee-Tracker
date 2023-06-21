@@ -1,7 +1,10 @@
 // house keeping 
 const sql = require("mysql");
 const inquirer = require("inquirer");
+const express = require("express");
 const cTable = require("console.table");
+// start the express app
+const app = express();
 // ddatabase conneciton 
 const connection = sql.createConnection({
     host: "localhost",

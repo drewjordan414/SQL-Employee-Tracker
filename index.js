@@ -62,3 +62,54 @@ function start(){
     })
 }
 // functions for each choice 
+function viewAllDepartments(){
+    connection.query("SELECT * FROM department", function(err, res){
+        if (err) throw err;
+        console.table(res);
+        start();
+    })
+};
+function viewAllRoles(){
+    connection.query("SELECT * FROM role", function(err, res){
+        if (err) throw err;
+        console.table(res);
+        start();
+    })
+};
+function viewAllEmployees(){
+    connection.query("SELECT * FROM employee", function(err, res){
+        if (err) throw err;
+        console.table(res);
+        start();
+    })
+};
+function addDepartment(){
+    inquirer
+    .prompt({
+        name: "department",
+        type: "input",
+        message: "Please enter the name of the department you would like to add."
+    })
+    .then(function(answer){
+        connection.query("INSERT INTO department SET ?", {name: answer.department}, function(err, res){
+            if (err) throw err;
+            console.log("Department added successfully!");
+            start();
+        })
+    })
+};
+function addRole(){
+    inquirer
+    .prompt({
+        name: "title",
+        type: "input",
+        message: "Please enter the title of the role you would like to add."
+    })
+    .then(function(answer){
+        connection.query("INSERT INTO role SET ?", {title: answer.title}, function(err, res){
+            if (err) throw err;
+            console.log("Role added successfully!");
+            start();
+        })
+    })
+};

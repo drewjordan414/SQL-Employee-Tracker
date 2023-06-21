@@ -2,9 +2,10 @@
   "name": "sql-employee-tracker",
   "version": "1.0.0",
   "description": "## Acceptance Criteria",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +13,6 @@
   "dependencies": {
     "express": "^4.18.2",
     "inquirer": "^9.2.7"
-  }
+  },
+  "devDependencies": {}
 }

@@ -1,11 +1,7 @@
-// house keeping 
 const sql = require("mysql");
 const inquirer = require("inquirer");
-const express = require("express");
 const cTable = require("console.table");
-// start the express app
-const app = express();
-// ddatabase conneciton 
+
 const connection = sql.createConnection({
     host: "localhost",
     user: "root",
@@ -17,7 +13,7 @@ connection.connect(function (err) {
     if (err) throw err;
     start();
 });
-// start function 
+
 function start() {
     inquirer
         .prompt({
@@ -64,28 +60,31 @@ function start() {
             }
         })
 }
-// functions for each choice 
+
 function viewAllDepartments() {
     connection.query("SELECT * FROM department", function (err, res) {
         if (err) throw err;
         console.table(res);
         start();
     })
-};
+}
+
 function viewAllRoles() {
     connection.query("SELECT * FROM role", function (err, res) {
         if (err) throw err;
         console.table(res);
         start();
     })
-};
+}
+
 function viewAllEmployees() {
     connection.query("SELECT * FROM employee", function (err, res) {
         if (err) throw err;
         console.table(res);
         start();
     })
-};
+}
+
 function addDepartment() {
     inquirer
         .prompt({
@@ -100,58 +99,107 @@ function addDepartment() {
                 start();
             })
         })
-};
+}
+
 function addRole() {
     inquirer
-        .prompt({
-            name: "title",
-            type: "input",
-            message: "Please enter the title of the role you would like to add."
-        })
+        .prompt([
+            {
+                name: "title",
+                type: "input",
+                message: "Please enter the title of the role you would like to add."
+            },
+            {
+                name: "salary",
+                type: "input",
+                message: "Please enter the salary for the role."
+            },
+            {
+                name: "department_id",
+                type: "input",
+                message: "Please enter the department ID the role belongs to."
+            }
+        ])
         .then(function (answer) {
-            connection.query("INSERT INTO role SET ?", { title: answer.title }, function (err, res) {
-                if (err) throw err;
-                console.log("Role added successfully!");
-                start();
-            })
-        })
-};
-function addEmployee() {
-    inquirer
-        .prompt({
-            name: "first_name",
-            type: "input",
-            message: "Please enter the first name of the employee you would like to add."
-        })
-        .then(function (answer) {
-            connection.query("INSERT INTO employee SET ?", { first_name: answer.first_name }, function (err, res) {
-                if (err) throw err;
-                console.log("Employee added successfully!");
-                start();
-            })
+            connection.query("INSERT INTO role SET ?", 
+                { 
+                    title: answer.title,
+                    salary: answer.salary,
+                    department_id: answer.department_id
+                }, 
+                function (err, res) {
+                    if (err) throw err;
+                    console.log("Role added successfully!");
+                    start();
+                }
+            )
         })
 }
-function updateEmployeeRole() {
+
+function addEmployee() {
     inquirer
         .prompt([
+            {
+                name: "first_name",
+                type: "input",
+                message: "Please enter the first name of the employee you would like to add."
+            },
+            {
+                name: "last_name",
+                type: "input",
+                message: "Please enter the last name of the employee you would like to add."
+            },
+            {
+                name: "role_id",
+                type: "input",
+                message: "Please enter the role ID for the employee."
+            },
+            {
+                name: "manager_id",
+                type: "input",
+                message: "Please enter the manager ID for the employee."
+            }
+        ])
+        .then(function (answer) {
+            connection.query("INSERT INTO employee SET ?", 
+                { 
+                    first_name: answer.first_name, 
+                    last_name: answer.last_name,
+                    role_id: answer.role_id,
+                    manager_id: answer.manager_id
+                }, 
+                function (err, res) {
+                    if (err) throw err;
+                    console.log("Employee added successfully!");
+                    start();
+                }
+            )
+        })
+}
+
+function updateEmployeeRole() {
+    connection.query("SELECT * FROM employee", function(err, employees) {
+        if (err) throw err;
+        
+        inquirer.prompt([
             {
                 name: 'employeeId',
                 type: 'list',
                 message: 'Which employee\'s role do you want to update?',
-                choices: employeeChoices,
+                choices: employees.map(employee => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id }))
             },
             {
                 name: 'roleId',
-                type: 'list',
-                message: 'Which role do you want to assign to the selected employee?',
-                choices: roleChoices,
-            },
+                type: 'input',
+                message: 'Which role ID do you want to assign to the selected employee?'
+            }
         ])
         .then(function (answer) {
-            connection.query('UPDATE employees SET ? WHERE ?', [{ role_id: answer.roleId }, { id: answer.employeeId }], function (err) {
+            connection.query('UPDATE employee SET ? WHERE ?', [{ role_id: answer.roleId }, { id: answer.employeeId }], function (err) {
                 if (err) throw err;
                 console.log('Updated employee\'s role successfully!');
                 start();
             });
         });
+    });
 }

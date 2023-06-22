@@ -1,5 +1,6 @@
 use employee_db;
 
+--departments
 INSERT INTO departments (name) VALUES ('Sales'), ('Engineering'), ('Finance');
 
 --roles

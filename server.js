@@ -6,7 +6,7 @@ const connection = sql.createConnection({
     host: "localhost",
     user: "root",
     password: "rootroot",
-    database: "employee_tracker_db"
+    database: "employee_db"
 });
 
 connection.connect(function (err) {

@@ -28,6 +28,12 @@ function start() {
                 "Add a role",
                 "Add an employee",
                 "Update an employee role",
+                "Update an employee manager",
+                "View employees by manager",
+                "Delete a department",
+                "Delete a role",
+                "Delete an employee",
+                "View department budget",
                 "Exit"
             ]
         })
@@ -54,11 +60,29 @@ function start() {
                 case "Update an employee role":
                     updateEmployeeRole();
                     break;
+                case "Update an employee manager":
+                    updateEmployeeManager();
+                    break;
+                case "View employees by manager":
+                    viewEmployeesByManager();
+                    break;
+                case "Delete a department":
+                    deleteDepartment();
+                    break;
+                case "Delete a role":
+                    deleteRole();
+                    break;
+                case "Delete an employee":
+                    deleteEmployee();
+                    break;
+                case "View department budget":
+                    viewDepartmentBudget();
+                    break;
                 case "Exit":
                     connection.end();
                     break;
             }
-        })
+        });
 }
 
 function viewAllDepartments() {

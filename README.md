@@ -69,7 +69,8 @@ THEN I am prompted to select an employee to update and their new role and this i
 ```
 
 ## NOTES 
-
+During this project, I ran into issues with MYSQL and database creation. I was unable to resolve this issue by uninstalling and reinstalling MYSQL.
+I plan to revisit this project in the future to resolve this issue and complete the project. 
 
 ## License
 

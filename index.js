@@ -242,29 +242,121 @@ function updateEmployeeRole() {
 
 // code for the bonus points 
 function updateEmployeeManager() {
-    connection.query("SELECT * FROM employee", function(err, employees) {
-        if (err) throw err;
-        
-        inquirer.prompt([
+    inquirer
+        .prompt([
             {
-                name: 'employeeId',
-                type: 'list',
-                message: 'Which employee\'s manager do you want to update?',
-                choices: employees.map(employee => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id }))
+                name: "employee_id",
+                type: "input",
+                message: "Enter the ID of the employee whose manager you want to update."
             },
             {
-                name: 'managerId',
-                type: 'list',
-                message: 'Which manager ID do you want to assign to the selected employee?',
-                choices: employees.map(employee => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id }))
+                name: "manager_id",
+                type: "input",
+                message: "Enter the new manager ID."
             }
         ])
         .then(function (answer) {
-            connection.query('UPDATE employee SET ? WHERE ?', [{ manager_id: answer.managerId }, { id: answer.employeeId }], function (err) {
+            connection.query("UPDATE employee SET manager_id = ? WHERE id = ?", [answer.manager_id, answer.employee_id], function (err, res) {
                 if (err) throw err;
-                console.log('Updated employee\'s manager successfully!');
+                console.log("Employee's manager updated successfully!");
                 start();
             });
         });
-    });
-};
+}
+
+function viewEmployeesByManager() {
+    inquirer
+        .prompt([
+            {
+                name: "manager_id",
+                type: "input",
+                message: "Enter the manager ID to view their employees."
+            }
+        ])
+        .then(function (answer) {
+            connection.query("SELECT * FROM employee WHERE manager_id = ?", [answer.manager_id], function (err, res) {
+                if (err) throw err;
+                console.table(res);
+                start();
+            });
+        });
+}
+
+function deleteDepartment() {
+    inquirer
+        .prompt([
+            {
+                name: "department_id",
+                type: "input",
+                message: "Enter the ID of the department you wish to delete."
+            }
+        ])
+        .then(function (answer) {
+            connection.query("DELETE FROM departments WHERE id = ?", [answer.department_id], function (err, res) {
+                if (err) throw err;
+                console.log("Department deleted successfully!");
+                start();
+            });
+        });
+}
+
+function deleteRole() {
+    inquirer
+        .prompt([
+            {
+                name: "role_id",
+                type: "input",
+                message: "Enter the ID of the role you wish to delete."
+            }
+        ])
+        .then(function (answer) {
+            connection.query("DELETE FROM roles WHERE id = ?", [answer.role_id], function (err, res) {
+                if (err) throw err;
+                console.log("Role deleted successfully!");
+                start();
+            });
+        });
+}
+
+function deleteEmployee() {
+    inquirer
+        .prompt([
+            {
+                name: "employee_id",
+                type: "input",
+                message: "Enter the ID of the employee you wish to delete."
+            }
+        ])
+        .then(function (answer) {
+            connection.query("DELETE FROM employees WHERE id = ?", [answer.employee_id], function (err, res) {
+                if (err) throw err;
+                console.log("Employee deleted successfully!");
+                start();
+            });
+        });
+}
+
+function viewDepartmentBudget() {
+    inquirer
+        .prompt([
+            {
+                name: "department_id",
+                type: "input",
+                message: "Enter the ID of the department to view its budget."
+            }
+        ])
+        .then(function (answer) {
+            connection.query(
+                `SELECT SUM(roles.salary) AS 'Budget'
+                 FROM employees
+                 JOIN roles ON employees.role_id = roles.id
+                 WHERE roles.department_id = ?`, 
+                [answer.department_id], 
+                function (err, res) {
+                    if (err) throw err;
+                    console.table(res);
+                    start();
+                }
+            );
+        });
+}

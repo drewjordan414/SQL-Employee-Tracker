@@ -70,7 +70,12 @@ function viewAllDepartments() {
 }
 
 function viewAllRoles() {
-    connection.query("SELECT * FROM role", function (err, res) {
+    const query = `
+        SELECT roles.id, title, salary, departments.name as department
+        FROM roles
+        INNER JOIN departments ON roles.department_id = departments.id
+    `;
+    connection.query(query, function (err, res) {
         if (err) throw err;
         console.table(res);
         start();
@@ -78,7 +83,14 @@ function viewAllRoles() {
 }
 
 function viewAllEmployees() {
-    connection.query("SELECT * FROM employee", function (err, res) {
+    const query = `
+        SELECT employees.id, employees.first_name, employees.last_name, roles.title as job_title, departments.name as department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) as manager
+        FROM employees
+        LEFT JOIN roles ON employees.role_id = roles.id
+        LEFT JOIN departments ON roles.department_id = departments.id
+        LEFT JOIN employees manager ON manager.id = employees.manager_id
+    `;
+    connection.query(query, function (err, res) {
         if (err) throw err;
         console.table(res);
         start();

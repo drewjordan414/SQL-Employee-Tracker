@@ -1,5 +1,51 @@
 # SQL-Employee-Tracker
 
+## Description
+
+This is a command-line application to manage a company's employee database, using Node.js, Inquirer, and MySQL. The application presents a solution for managing a company's employees using node, inquirer, and MySQL.
+
+## Features
+
+- View departments, roles, employees
+- Add departments, roles, employees
+- Update employee roles
+
+## Installation
+
+To install the necessary dependencies, run the following command:
+
+```
+npm install mysql inquirer console.table
+```
+
+
+## Usage
+
+To use the application, run the following command:
+
+```
+node index.js
+```
+
+You will then be presented with a series of options to view, add, or update departments, roles, and employees.
+
+## Database
+
+The database schema contains three tables:
+
+- `departments`: Contains `id` and `name` of the departments.
+- `roles`: Contains `id`, `title`, `salary`, and `department_id` for each role.
+- `employees`: Contains `id`, `first_name`, `last_name`, `role_id`, and `manager_id` for each employee.
+
+## Seed Data
+
+You can quickly populate your database with test data by running the seeds file: 
+
+```
+mysql -u root -p < db/seed.sql
+
+```
+
 ## Acceptance Criteria
 
 ```md
@@ -23,3 +69,8 @@ THEN I am prompted to select an employee to update and their new role and this i
 ```
 
 ## NOTES 
+
+
+## License
+
+This project is licensed under the MIT license.

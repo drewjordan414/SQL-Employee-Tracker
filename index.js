@@ -215,3 +215,32 @@ function updateEmployeeRole() {
         });
     });
 }
+
+// code for the bonus points 
+function updateEmployeeManager() {
+    connection.query("SELECT * FROM employee", function(err, employees) {
+        if (err) throw err;
+        
+        inquirer.prompt([
+            {
+                name: 'employeeId',
+                type: 'list',
+                message: 'Which employee\'s manager do you want to update?',
+                choices: employees.map(employee => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id }))
+            },
+            {
+                name: 'managerId',
+                type: 'list',
+                message: 'Which manager ID do you want to assign to the selected employee?',
+                choices: employees.map(employee => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id }))
+            }
+        ])
+        .then(function (answer) {
+            connection.query('UPDATE employee SET ? WHERE ?', [{ manager_id: answer.managerId }, { id: answer.employeeId }], function (err) {
+                if (err) throw err;
+                console.log('Updated employee\'s manager successfully!');
+                start();
+            });
+        });
+    });
+};

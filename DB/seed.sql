@@ -1,14 +1,30 @@
-use employee_db;
+INSERT INTO department (id, name) VALUES
+(1, 'Engineering'),
+(2, 'Sales'),
+(3, 'Marketing'),
+(4, 'Human Resources');
 
---departments
-INSERT INTO departments (name) VALUES ('Sales'), ('Engineering'), ('Finance');
+-- Insert roles
+INSERT INTO role (id, title, salary, department_id) VALUES
+(1, 'Software Engineer', 60000, 1),
+(2, 'Sales Manager', 80000, 2),
+(3, 'Marketing Coordinator', 50000, 3),
+(4, 'HR Assistant', 40000, 4);
 
---roles
-INSERT INTO roles (title, salary, department_id) VALUES ('Sales Executive', 70000.00, (SELECT id FROM departments WHERE name='Sales'));
-INSERT INTO roles (title, salary, department_id) VALUES ('Software Engineer', 80000.00, (SELECT id FROM departments WHERE name='Engineering'));
-INSERT INTO roles (title, salary, department_id) VALUES ('Accountant', 60000.00, (SELECT id FROM departments WHERE name='Finance'));
-
---employees
-INSERT INTO employees (first_name, last_name, role_id) VALUES ('John', 'Doe', (SELECT id FROM roles WHERE title='Sales Executive'));
-INSERT INTO employees (first_name, last_name, role_id) VALUES ('Jane', 'Smith', (SELECT id FROM roles WHERE title='Software Engineer'));
-INSERT INTO employees (first_name, last_name, role_id) VALUES ('Bob', 'Johnson', (SELECT id FROM roles WHERE title='Accountant'));
+-- Insert employees
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES
+(1, 'John', 'Doe', 1, NULL),
+(2, 'Jane', 'Smith', 1, 1),
+(3, 'Michael', 'Johnson', 2, NULL),
+(4, 'Emily', 'Williams', 3, 1),
+(5, 'David', 'Brown', 3, 4),
+(6, 'Sarah', 'Jones', 2, 3),
+(7, 'Matthew', 'Taylor', 1, 1),
+(8, 'Olivia', 'Miller', 4, 4),
+(9, 'Daniel', 'Anderson', 1, 1),
+(10, 'Sophia', 'Thomas', 3, 4),
+(11, 'James', 'Jackson', 2, 3),
+(12, 'Ava', 'White', 1, 1),
+(13, 'Joseph', 'Harris', 4, 4),
+(14, 'Madison', 'Clark', 2, 3),
+(15, 'Benjamin', 'Lewis', 1, 1);

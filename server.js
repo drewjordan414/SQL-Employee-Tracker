@@ -96,9 +96,9 @@ function viewAllDepartments() {
 
 function viewAllRoles() {
     const query = `
-        SELECT roles.id, title, salary, departments.name as department
-        FROM roles
-        INNER JOIN departments ON roles.department_id = departments.id
+        SELECT role.id, title, salary, department.name as department
+        FROM role
+        INNER JOIN department ON role.department_id = department.id
     `;
     connection.query(query, function (err, res) {
         if (err) throw err;
@@ -109,11 +109,11 @@ function viewAllRoles() {
 
 function viewAllEmployees() {
     const query = `
-        SELECT employees.id, employees.first_name, employees.last_name, roles.title as job_title, departments.name as department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) as manager
-        FROM employees
-        LEFT JOIN roles ON employees.role_id = roles.id
-        LEFT JOIN departments ON roles.department_id = departments.id
-        LEFT JOIN employees manager ON manager.id = employees.manager_id
+        SELECT employee.id, employee.first_name, employee.last_name, role.title as job_title, department.name as department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) as manager
+        FROM employee
+        LEFT JOIN role ON employee.role_id = role.id
+        LEFT JOIN department ON role.department_id = department.id
+        LEFT JOIN employee manager ON manager.id = employee.manager_id
     `;
     connection.query(query, function (err, res) {
         if (err) throw err;
@@ -293,7 +293,7 @@ function deleteDepartment() {
             }
         ])
         .then(function (answer) {
-            connection.query("DELETE FROM departments WHERE id = ?", [answer.department_id], function (err, res) {
+            connection.query("DELETE FROM department WHERE id = ?", [answer.department_id], function (err, res) {
                 if (err) throw err;
                 console.log("Department deleted successfully!");
                 start();
@@ -311,7 +311,7 @@ function deleteRole() {
             }
         ])
         .then(function (answer) {
-            connection.query("DELETE FROM roles WHERE id = ?", [answer.role_id], function (err, res) {
+            connection.query("DELETE FROM role WHERE id = ?", [answer.role_id], function (err, res) {
                 if (err) throw err;
                 console.log("Role deleted successfully!");
                 start();
@@ -329,7 +329,7 @@ function deleteEmployee() {
             }
         ])
         .then(function (answer) {
-            connection.query("DELETE FROM employees WHERE id = ?", [answer.employee_id], function (err, res) {
+            connection.query("DELETE FROM employee WHERE id = ?", [answer.employee_id], function (err, res) {
                 if (err) throw err;
                 console.log("Employee deleted successfully!");
                 start();
@@ -348,10 +348,10 @@ function viewDepartmentBudget() {
         ])
         .then(function (answer) {
             connection.query(
-                `SELECT SUM(roles.salary) AS 'Budget'
-                 FROM employees
-                 JOIN roles ON employees.role_id = roles.id
-                 WHERE roles.department_id = ?`, 
+                `SELECT SUM(role.salary) AS 'Budget'
+                 FROM employee
+                 JOIN role ON employee.role_id = role.id
+                 WHERE role.department_id = ?`, 
                 [answer.department_id], 
                 function (err, res) {
                     if (err) throw err;

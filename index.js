@@ -3,9 +3,9 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 
 const connection = sql.createConnection({
-    host: "localhost",
+    host: "127.0.0.1",
     user: "root",
-    password: "rootroot",
+    password: "root",
     database: "employee_db"
 });
 

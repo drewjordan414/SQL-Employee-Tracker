@@ -25,7 +25,6 @@ const db = mysql.createConnection(
 
 
 async function init() {
-    await delay(1000);
     inquirer.prompt(questions.questions)
         .then((data) => {
             console.log(`You selected: ${data.action}`)

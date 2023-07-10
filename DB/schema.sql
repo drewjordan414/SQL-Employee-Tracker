@@ -1,6 +1,6 @@
-CREATE DATABASE employees_db_two;
+CREATE DATABASE employee_database;
 
-USE employees_db_two;
+USE employee_database;
 
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

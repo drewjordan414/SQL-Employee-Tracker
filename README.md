@@ -68,8 +68,6 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 ```
 
-## NOTES 
-During this project, I ran into issues with MYSQL and database creation. I was unable to resolve this issue by uninstalling and reinstalling MYSQL.
 I plan to revisit this project in the future to resolve this issue and complete the project. 
 
 ## License

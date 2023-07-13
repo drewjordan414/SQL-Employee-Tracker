@@ -1,6 +1,6 @@
 // housekeeping
 const inquirer = require('inquirer');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const questions = require('./JS/questions');
 const queries = require('./JS/query');
 
